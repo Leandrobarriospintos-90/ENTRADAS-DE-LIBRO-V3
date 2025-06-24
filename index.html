@@ -226,6 +226,10 @@
                             <option>Coordinadora</option>
                             <option>Coordinadores</option>
                             <option>Coordinadoras</option>
+                            <option>Compilador</option> <!-- New option added here -->
+                            <option>Compiladora</option> <!-- New option added here -->
+                            <option>Compiladores</option> <!-- New option added here -->
+                            <option>Compiladoras</option> <!-- New option added here -->
                             <option>Institución</option>
                         </select>
                     </div>
@@ -506,9 +510,10 @@
             } else {
                 // Sorting by collection, then by date (Year, Month, Day) in DESCENDING order
                 currentSortedEntries.sort((a, b) => {
-                    // Custom order for collections: "Coedición" goes last
+                    // Custom order for collections: "Coedición" then "Sin Colección" go last
                     const getCollectionSortValue = (collectionName) => {
-                        if (collectionName === "Coedición") return 1; // Send Coedición to the end
+                        if (collectionName === "Sin Colección") return 2; // Send Sin Colección to the very end
+                        if (collectionName === "Coedición") return 1;    // Send Coedición after other collections, before Sin Colección
                         return 0; // Other collections stay in their natural order
                     };
 
@@ -519,7 +524,7 @@
                         return collectionSortA - collectionSortB;
                     }
 
-                    // If collections are the same (or both not "Coedición"), sort alphabetically by collection name
+                    // If collections are the same (or both not special), sort alphabetically by collection name
                     const collectionCompare = (a.collection || '').localeCompare(b.collection || '');
                     if (collectionCompare !== 0) return collectionCompare;
 
@@ -653,9 +658,10 @@
                 });
             } else {
                 entriesToRender.sort((a, b) => {
-                    // Custom order for collections: "Coedición" goes last
+                    // Custom order for collections: "Coedición" then "Sin Colección" go last
                     const getCollectionSortValue = (collectionName) => {
-                        if (collectionName === "Coedición") return 1; // Send Coedición to the end
+                        if (collectionName === "Sin Colección") return 2; // Send Sin Colección to the very end
+                        if (collectionName === "Coedición") return 1;    // Send Coedición after other collections, before Sin Colección
                         return 0; // Other collections stay in their natural order
                     };
 
@@ -666,7 +672,7 @@
                         return collectionSortA - collectionSortB;
                     }
 
-                    // If collections are the same (or both not "Coedición"), sort alphabetically by collection name
+                    // If collections are the same (or both not special), sort alphabetically by collection name
                     const collectionCompare = (a.collection || '').localeCompare(b.collection || '');
                     if (collectionCompare !== 0) return collectionCompare;
                     
@@ -698,6 +704,8 @@
                         return "#006bcd";
                     case "Coedición":
                         return "#708090"; // Color gris para Coedición
+                    case "Sin Colección": // Color para "Sin Colección"
+                        return "#A9A9A9"; // DarkGrey, puedes ajustar si prefieres otro tono
                     default:
                         return "#D83A39"; // Default color
                 }
