@@ -176,9 +176,9 @@
                             <option>Sin Colección</option>
                         </select>
                     </div>
-                    <!-- New wrapper for Coeditoriales input -->
-                    <div id="coeditorialesWrapper" class="hidden pl-2">
-                        <label for="entryCoeditoriales" class="block text-sm font-medium text-gray-700 mb-1">Coeditoriales</label>
+                    <!-- Coeditoriales field - moved here and always visible -->
+                    <div id="coeditorialesWrapper" class="pl-2">
+                        <label for="entryCoeditoriales" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Colaborador (Opcional)</label>
                         <input type="text" id="entryCoeditoriales" class="form-input" placeholder="Ej: Editorial X, Editorial Y">
                     </div>
                     <div id="seriesHistoriasDeVidaWrapper" class="hidden pl-2">
@@ -343,9 +343,13 @@
         const modalTitle = document.getElementById('modalTitle');
         const saveModalBtn = document.getElementById('saveModalBtn');
 
-        // New DOM variables for Coeditoriales
+        // DOM variables for Coeditoriales and Series
         const coeditorialesWrapper = document.getElementById('coeditorialesWrapper');
         const entryCoeditoriales = document.getElementById('entryCoeditoriales');
+        const seriesHistoriasDeVidaWrapper = document.getElementById('seriesHistoriasDeVidaWrapper');
+        const seriesHistoriasDeVidaCheckbox = document.getElementById('entrySeriesHistoriasDeVida');
+        const seriesApuntesYTrabajosPracticosWrapper = document.getElementById('seriesApuntesYTrabajosPracticosWrapper');
+        const seriesApuntesYTrabajosPracticosCheckbox = document.getElementById('entrySeriesApuntesYTrabajosPracticos');
         
         const confirmModal = document.getElementById('confirmModal');
         const confirmModalTitle = document.getElementById('confirmModalTitle');
@@ -730,16 +734,16 @@
                 }
 
                 let collectionDisplayName = display(entry.collection);
-                let coeditorialesContent = ''; // New variable for coeditoriales content
+                let coeditorialesContent = ''; 
 
-                if (entry.collection === "Coedición") {
-                    collectionDisplayName = entry.collection; // No "Colección " prefix for Coedición
-                    if (entry.coeditoriales) {
-                        // Display coeditoriales, similar to series, using the collection's color
-                        coeditorialesContent = `<span style="color: ${collectionColor}; margin-left: 8px;">- ${entry.coeditoriales}</span>`;
-                    }
-                } else if (entry.collection && entry.collection !== "Sin Colección") {
+                if (entry.coeditoriales) { // Display coeditoriales if it exists, regardless of collection
+                    coeditorialesContent = `<span style="color: ${collectionColor}; margin-left: 8px;">- ${entry.coeditoriales}</span>`;
+                }
+
+                if (entry.collection && entry.collection !== "Sin Colección" && entry.collection !== "Coedición") {
                     collectionDisplayName = 'Colección ' + collectionDisplayName;
+                } else if (entry.collection === "Coedición") {
+                    collectionDisplayName = entry.collection; // No "Colección " prefix for Coedición
                 } else {
                     collectionDisplayName = ''; // No collection name for "Sin Colección" or empty
                 }
@@ -751,7 +755,7 @@
                         <svg width="10" height="10" viewBox="0 0 100 100"><polygon points="0,0 100,50 0,100" fill="${collectionColor}"/></svg>
                         <span style="color: ${collectionColor};">${collectionDisplayName}</span>
                         ${seriesContent}
-                        ${coeditorialesContent} <!-- Add coeditoriales content here -->
+                        ${coeditorialesContent}
                     </div>`
                     : '<div style="margin-bottom: 1.5rem;"></div>';
                 
@@ -896,10 +900,10 @@
             // Open "Add Entry" modal
             addEntryBtn.addEventListener('click', () => {
                 addEntryForm.reset();
-                // Hide all series and coeditoriales wrappers initially
-                document.getElementById('seriesHistoriasDeVidaWrapper').classList.add('hidden');
-                document.getElementById('seriesApuntesYTrabajosPracticosWrapper').classList.add('hidden');
-                coeditorialesWrapper.classList.add('hidden'); // Hide coeditoriales wrapper
+                // Hide all series wrappers initially
+                seriesHistoriasDeVidaWrapper.classList.add('hidden');
+                seriesApuntesYTrabajosPracticosWrapper.classList.add('hidden');
+                // The coeditorialesWrapper is now always visible by default in HTML, no need to touch it here.
                 document.getElementById('entryEditId').value = '';
                 modalTitle.textContent = 'Añadir Nueva Entrada';
                 saveModalBtn.textContent = 'Guardar Entrada';
@@ -909,29 +913,24 @@
             // Cancel "Add/Edit" modal
             cancelModalBtn.addEventListener('click', () => hideModal(addEntryModal));
 
-            // Show/hide series and coeditoriales checkboxes/inputs based on collection
+            // Show/hide series checkboxes/inputs based on collection
             const collectionSelect = document.getElementById('entryCollection');
-            const seriesHistoriasDeVidaWrapper = document.getElementById('seriesHistoriasDeVidaWrapper');
-            const seriesHistoriasDeVidaCheckbox = document.getElementById('entrySeriesHistoriasDeVida');
-            const seriesApuntesYTrabajosPracticosWrapper = document.getElementById('seriesApuntesYTrabajosPracticosWrapper');
-            const seriesApuntesYTrabajosPracticosCheckbox = document.getElementById('entrySeriesApuntesYTrabajosPracticos');
             
             collectionSelect.addEventListener('change', () => {
-                // Reset all series and coeditoriales checkboxes/inputs and hide their wrappers
+                // Reset all series checkboxes/inputs and hide their wrappers
                 seriesHistoriasDeVidaWrapper.classList.add('hidden');
                 seriesHistoriasDeVidaCheckbox.checked = false;
                 seriesApuntesYTrabajosPracticosWrapper.classList.add('hidden');
                 seriesApuntesYTrabajosPracticosCheckbox.checked = false;
-                coeditorialesWrapper.classList.add('hidden'); // Hide coeditoriales wrapper
-                entryCoeditoriales.value = ''; // Clear coeditoriales value
+                // Coeditoriales input is always visible, no need to touch its wrapper or value here
+                // entryCoeditoriales.value = ''; // No longer clear coeditoriales value based on collection
 
                 if (collectionSelect.value === 'Sociedad en Movimiento') {
                     seriesHistoriasDeVidaWrapper.classList.remove('hidden');
                 } else if (collectionSelect.value === 'Aulas Universitarias') {
                     seriesApuntesYTrabajosPracticosWrapper.classList.remove('hidden');
-                } else if (collectionSelect.value === 'Coedición') {
-                    coeditorialesWrapper.classList.remove('hidden'); // Show coeditoriales wrapper
                 }
+                // No special handling for 'Coedición' collection needed for coeditorialesWrapper now
             });
             
             // Handle Add/Edit form submission
@@ -947,9 +946,9 @@
                 };
                 
                 let selectedSeries = null;
-                if (document.getElementById('entrySeriesHistoriasDeVida').checked) {
+                if (seriesHistoriasDeVidaCheckbox.checked) {
                     selectedSeries = "Serie Historias de Vida";
-                } else if (document.getElementById('entrySeriesApuntesYTrabajosPracticos').checked) {
+                } else if (seriesApuntesYTrabajosPracticosCheckbox.checked) {
                     selectedSeries = "Serie Apuntes y Trabajos Prácticos";
                 }
 
@@ -958,9 +957,9 @@
                     price: getNumbValue('entryPrice'),
                     collection: document.getElementById('entryCollection').value,
                     series: selectedSeries, // Use the determined series
-                    coeditoriales: document.getElementById('entryCoeditoriales').value.trim(), // New: Coeditoriales field
-                    month: getNumbValue('entryMonth'), // New: Month field
-                    day: getNumbValue('entryDay'),       // New: Day field
+                    coeditoriales: entryCoeditoriales.value.trim(), // Coeditoriales field is always read
+                    month: getNumbValue('entryMonth'), 
+                    day: getNumbValue('entryDay'),       
                     author: document.getElementById('entryAuthor').value.trim(),
                     sourceType: document.getElementById('entrySourceType').value,
                     workTitle: document.getElementById('entryWorkTitle').value.trim(),
@@ -1068,8 +1067,8 @@
                             ...entry,
                             id: entry.id || crypto.randomUUID(),
                             canExport: typeof entry.canExport === 'boolean' ? entry.canExport : true,
-                            workTitleVisible: typeof entry.workTitleVisible === 'boolean' ? entry.workTitleVisible : false, // Ensure workTitleVisible for imported entries
-                            coeditoriales: typeof entry.coeditoriales === 'string' ? entry.coeditoriales : '', // Ensure coeditoriales for imported entries
+                            workTitleVisible: typeof entry.workTitleVisible === 'boolean' ? entry.workTitleVisible : false, 
+                            coeditoriales: typeof entry.coeditoriales === 'string' ? entry.coeditoriales : '', 
                         })); 
                         saveEntriesToStorage();
                         renderEntries();
@@ -1174,18 +1173,13 @@
                 const entryToEdit = localEntries.find(entry => entry.id === id);
                 if (!entryToEdit) return;
                 
-                const collectionSelect = document.getElementById('entryCollection');
-                const seriesHistoriasDeVidaWrapper = document.getElementById('seriesHistoriasDeVidaWrapper');
-                const seriesHistoriasDeVidaCheckbox = document.getElementById('entrySeriesHistoriasDeVida');
-                const seriesApuntesYTrabajosPracticosWrapper = document.getElementById('seriesApuntesYTrabajosPracticosWrapper');
-                const seriesApuntesYTrabajosPracticosCheckbox = document.getElementById('entrySeriesApuntesYTrabajosPracticos');
-
                 // Populate form
                 document.getElementById('entryEditId').value = id;
                 document.getElementById('entryPrice').value = entryToEdit.price || '';
                 collectionSelect.value = entryToEdit.collection || '';
-                document.getElementById('entryMonth').value = entryToEdit.month || ''; // Populate month
-                document.getElementById('entryDay').value = entryToEdit.day || '';       // Populate day
+                entryCoeditoriales.value = entryToEdit.coeditoriales || ''; // Populate coeditoriales
+                document.getElementById('entryMonth').value = entryToEdit.month || ''; 
+                document.getElementById('entryDay').value = entryToEdit.day || '';       
                 document.getElementById('entryPublishYear').value = entryToEdit.publicationYear || '';
                 document.getElementById('entryAuthor').value = entryToEdit.author || '';
                 document.getElementById('entrySourceType').value = entryToEdit.sourceType || 'Autor';
@@ -1205,26 +1199,21 @@
                 document.getElementById('entryIsbn').value = entryToEdit.isbn || '';
                 document.getElementById('entryIsbnDigital').value = entryToEdit.isbnDigital || '';
                 document.getElementById('entryDescription').value = entryToEdit.description || '';
-                // Populate coeditoriales
-                entryCoeditoriales.value = entryToEdit.coeditoriales || '';
-
-
-                // Reset and then show/hide and set series and coeditoriales inputs/checkboxes
+                
+                // Reset and then show/hide and set series inputs/checkboxes
                 seriesHistoriasDeVidaWrapper.classList.add('hidden');
                 seriesHistoriasDeVidaCheckbox.checked = false;
                 seriesApuntesYTrabajosPracticosWrapper.classList.add('hidden');
                 seriesApuntesYTrabajosPracticosCheckbox.checked = false;
-                coeditorialesWrapper.classList.add('hidden'); // Hide coeditoriales wrapper initially
-
+                
                 if (collectionSelect.value === 'Sociedad en Movimiento') {
                     seriesHistoriasDeVidaWrapper.classList.remove('hidden');
                     seriesHistoriasDeVidaCheckbox.checked = (entryToEdit.series === "Serie Historias de Vida");
                 } else if (collectionSelect.value === 'Aulas Universitarias') {
                     seriesApuntesYTrabajosPracticosWrapper.classList.remove('hidden');
                     seriesApuntesYTrabajosPracticosCheckbox.checked = (entryToEdit.series === "Serie Apuntes y Trabajos Prácticos");
-                } else if (collectionSelect.value === 'Coedición') {
-                    coeditorialesWrapper.classList.remove('hidden'); // Show coeditoriales wrapper
                 }
+                // coeditorialesWrapper is always visible, no special handling here.
                 
                 // Update modal UI
                 modalTitle.textContent = 'Editar Entrada';
