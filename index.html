@@ -71,10 +71,10 @@
 </head>
 <body class="flex flex-col">
     <input type="file" id="importFile" class="hidden" accept=".json">
-    <!-- App Container -->
+    <!-- Contenedor principal de la aplicación -->
     <div id="appContainer" class="flex flex-col h-full">
         
-        <!-- Header -->
+        <!-- Encabezado de la aplicación -->
         <header id="appHeader" class="p-4 bg-white border-b border-gray-200 flex justify-between items-center flex-shrink-0">
             <div class="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -83,7 +83,7 @@
                 <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Entradas de libros</h1>
             </div>
             <div class="flex items-center gap-4">
-                <!-- Collection Filter Dropdown -->
+                <!-- Dropdown de filtro por colección -->
                 <select id="collectionFilter" class="form-select pl-3 pr-8 py-2 rounded-md shadow-sm border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity50">
                     <option value="">Todas las Colecciones</option>
                     <option value="Ciencias">Ciencias</option>
@@ -92,7 +92,7 @@
                     <option value="Coedición">Coedición</option>
                     <option value="Sin Colección">Sin Colección</option>
                 </select>
-                <!-- Search Input -->
+                <!-- Campo de búsqueda -->
                 <input type="text" id="searchInput" class="form-input w-48 sm:w-64" placeholder="Buscar por Autor o Título">
                 <button id="addEntryBtn" class="btn btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
@@ -101,7 +101,7 @@
             </div>
         </header>
 
-        <!-- Main Content -->
+        <!-- Contenido principal -->
         <main class="flex-grow p-4 md:p-8 w-full max-w-7xl mx-auto flex flex-col">
             <div id="content" class="w-full flex-col flex-grow">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-4">
@@ -112,20 +112,20 @@
                         <button id="importJsonBtn" class="btn btn-info btn-sm">Importar JSON</button>
                         <button id="exportJsonBtn" class="btn btn-secondary btn-sm" disabled>Exportar JSON</button>
                         <button id="exportHtmlBtn" class="btn btn-success btn-sm" disabled>Exportar HTML</button>
-                        <!-- New button for exporting HTML with forced work title visibility -->
+                        <!-- Nuevo botón para exportar HTML con visibilidad forzada del título de la obra -->
                         <button id="exportHtmlWithTitleBtn" class="btn btn-success btn-sm" disabled>HTML / Título</button>
                         
-                        <!-- Checkbox for toggling all export -->
+                        <!-- Checkbox para alternar toda la exportación -->
                         <div class="flex items-center">
                             <input type="checkbox" id="toggleAllExportCheckbox" class="form-checkbox h-4 w-4 text-blue-600" disabled>
                             <label for="toggleAllExportCheckbox" class="ml-2 text-sm text-gray-700">Todo</label>
                         </div>
 
-                        <!-- Button for toggling date sorting (now with icons) -->
+                        <!-- Botón para alternar la ordenación por fecha (ahora con iconos) -->
                         <button id="toggleDateSortBtn" class="btn btn-secondary btn-sm">
                             <span id="sortText">Orden</span>
                             <span id="sortIcon">
-                                <!-- Default icon (no sort) -->
+                                <!-- Icono predeterminado (sin ordenar) -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                                 </svg>
@@ -136,7 +136,7 @@
                     </div>
                 </div>
                 <div id="entriesList" class="bg-white rounded-xl shadow-md divide-y divide-gray-200">
-                    <!-- Entries will be dynamically inserted here -->
+                    <!-- Las entradas se insertarán dinámicamente aquí -->
                 </div>
                 <div id="emptyState" class="text-center py-16 px-8 bg-white rounded-xl shadow-md hidden">
                     <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -148,13 +148,13 @@
             </div>
         </main>
 
-        <!-- Footer -->
+        <!-- Pie de página -->
         <footer id="appFooter" class="flex-shrink-0 text-center py-3 bg-gray-200 border-t">
             <p class="text-xs text-gray-600">&copy; <span id="year"></span> EdUNLu.</p>
         </footer>
     </div>
     
-    <!-- Add/Edit Entry Modal -->
+    <!-- Modal para añadir/editar entrada -->
     <div id="addEntryModal" class="modal-overlay">
         <div class="modal-container">
             <h2 id="modalTitle" class="text-2xl font-bold mb-6 text-gray-800">Añadir Nueva Entrada</h2>
@@ -176,7 +176,7 @@
                             <option>Sin Colección</option>
                         </select>
                     </div>
-                    <!-- Coeditoriales field - moved here and always visible -->
+                    <!-- Campo de coeditoriales - movido aquí y siempre visible -->
                     <div id="coeditorialesWrapper" class="pl-2">
                         <label for="entryCoeditoriales" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Colaborador (Opcional)</label>
                         <input type="text" id="entryCoeditoriales" class="form-input" placeholder="Ej: Editorial X, Editorial Y">
@@ -193,7 +193,7 @@
                             <span class="text-sm font-medium text-gray-700">Serie Apuntes y Trabajos Prácticos</span>
                         </label>
                     </div>
-                    <!-- New fields for Month and Day -->
+                    <!-- Nuevos campos para Mes y Día -->
                     <div class="border p-4 rounded-md bg-gray-50">
                         <p class="text-sm font-medium text-gray-700 mb-2">Metadatos de Publicación (No visibles en exportación HTML)</p>
                         <div class="grid grid-cols-2 gap-4">
@@ -226,10 +226,10 @@
                             <option>Coordinadora</option>
                             <option>Coordinadores</option>
                             <option>Coordinadoras</option>
-                            <option>Compilador</option> <!-- New option added here -->
-                            <option>Compiladora</option> <!-- New option added here -->
-                            <option>Compiladores</option> <!-- New option added here -->
-                            <option>Compiladoras</option> <!-- New option added here -->
+                            <option>Compilador</option>
+                            <option>Compiladora</option>
+                            <option>Compiladores</option>
+                            <option>Compiladoras</option>
                             <option>Institución</option>
                         </select>
                     </div>
@@ -299,7 +299,7 @@
         </div>
     </div>
     
-    <!-- Confirmation Modal (for clear all and delete single) -->
+    <!-- Modal de confirmación (para borrar todo y eliminar individualmente) -->
     <div id="confirmModal" class="modal-overlay">
         <div class="modal-container">
             <h2 id="confirmModalTitle" class="text-2xl font-bold mb-4 text-gray-800">¿Estás seguro?</h2>
@@ -311,13 +311,13 @@
         </div>
     </div>
     
-    <!-- Notification Toast -->
+    <!-- Notificación Toast -->
     <div id="notificationToast" class="fixed top-5 right-5 bg-green-500 text-white py-3 px-5 rounded-lg shadow-lg transform translate-x-[150%] transition-transform duration-500 ease-in-out z-50">
         <p id="notificationMessage">Message here</p>
     </div>
 
     <script>
-        // --- Global DOM Variables ---
+        // --- Variables DOM Globales ---
         const content = document.getElementById('content');
         const entryCounter = document.getElementById('entryCounter');
         const emptyState = document.getElementById('emptyState');
@@ -326,16 +326,16 @@
         const addEntryBtn = document.getElementById('addEntryBtn');
         const exportHtmlBtn = document.getElementById('exportHtmlBtn');
         const exportJsonBtn = document.getElementById('exportJsonBtn');
-        const exportHtmlWithTitleBtn = document.getElementById('exportHtmlWithTitleBtn'); // New: Export HTML with forced work title button
+        const exportHtmlWithTitleBtn = document.getElementById('exportHtmlWithTitleBtn'); // Nuevo: Botón para exportar HTML con título de obra forzado
         const importJsonBtn = document.getElementById('importJsonBtn');
         const importFileEl = document.getElementById('importFile');
         const clearDataBtn = document.getElementById('clearDataBtn');
         const toggleAllExportCheckbox = document.getElementById('toggleAllExportCheckbox');
         const collectionFilter = document.getElementById('collectionFilter');
-        const toggleDateSortBtn = document.getElementById('toggleDateSortBtn'); // Date Sort Button
-        const sortText = document.getElementById('sortText'); // Text for sort button
-        const sortIcon = document.getElementById('sortIcon'); // Icon container for sort button
-        const searchInput = document.getElementById('searchInput'); // New: Search input
+        const toggleDateSortBtn = document.getElementById('toggleDateSortBtn'); // Botón de ordenación por fecha
+        const sortText = document.getElementById('sortText'); // Texto para el botón de ordenación
+        const sortIcon = document.getElementById('sortIcon'); // Contenedor de iconos para el botón de ordenación
+        const searchInput = document.getElementById('searchInput'); // Nuevo: Campo de búsqueda
 
         const addEntryModal = document.getElementById('addEntryModal');
         const addEntryForm = document.getElementById('addEntryForm');
@@ -343,7 +343,7 @@
         const modalTitle = document.getElementById('modalTitle');
         const saveModalBtn = document.getElementById('saveModalBtn');
 
-        // DOM variables for Coeditoriales and Series
+        // Variables DOM para Coeditoriales y Series
         const coeditorialesWrapper = document.getElementById('coeditorialesWrapper');
         const entryCoeditoriales = document.getElementById('entryCoeditoriales');
         const seriesHistoriasDeVidaWrapper = document.getElementById('seriesHistoriasDeVidaWrapper');
@@ -357,17 +357,17 @@
         const cancelConfirmBtn = document.getElementById('cancelConfirmBtn');
         const confirmBtn = document.getElementById('confirmBtn');
 
-        // --- Local Data Store ---
+        // --- Almacén de datos local ---
         let localEntries = [];
         let confirmAction = null;
         const STORAGE_KEY = 'catalogEntries';
-        // sortByDateDirection: 0 = No sort, 1 = Ascending, -1 = Descending
-        let sortByDateDirection = 0; // New: State for date sorting direction
+        // sortByDateDirection: 0 = Sin ordenar, 1 = Ascendente, -1 = Descendente
+        let sortByDateDirection = 0; // Nuevo: Estado para la dirección de ordenación por fecha
 
-        // Global variable to store currently displayed entries for UI updates
+        // Variable global para almacenar las entradas mostradas actualmente para las actualizaciones de la interfaz de usuario
         let displayedEntriesForUI = [];
 
-        // --- UI Functions ---
+        // --- Funciones de la Interfaz de Usuario ---
         function showModal(modalElement) { modalElement.classList.add('visible'); }
         function hideModal(modalElement) { modalElement.classList.remove('visible'); }
         
@@ -376,20 +376,20 @@
             const msgEl = document.getElementById('notificationMessage');
             
             msgEl.textContent = message;
-            toast.className = 'fixed top-5 right-5 text-white py-3 px-5 rounded-lg shadow-lg transform transition-transform duration-500 ease-in-out z-50'; // Reset classes
+            toast.className = 'fixed top-5 right-5 text-white py-3 px-5 rounded-lg shadow-lg transform transition-transform duration-500 ease-in-out z-50'; // Restablecer clases
             toast.classList.add(isError ? 'bg-red-600' : 'bg-green-500');
 
-            // Show
+            // Mostrar
             toast.classList.remove('translate-x-[150%]');
             
-            // Hide after 3 seconds
+            // Ocultar después de 3 segundos
             setTimeout(() => {
                 toast.classList.add('translate-x-[150%]');
             }, 3000);
         }
         
         function updateUI() {
-            // Check if any entry (globally, not just displayed) is marked for export
+            // Comprobar si alguna entrada (globalmente, no solo las mostradas) está marcada para exportar
             const canAnyBeExported = localEntries.some(entry => entry.canExport);
             const totalCount = localEntries.length;
             entryCounter.textContent = totalCount;
@@ -398,10 +398,10 @@
             exportJsonBtn.disabled = !canAnyBeExported;
             exportHtmlWithTitleBtn.disabled = !canAnyBeExported;
             
-            // Enable/disable the "Todo" checkbox based on whether there are any displayed entries
+            // Habilitar/deshabilitar el checkbox "Todo" según si hay entradas mostradas
             toggleAllExportCheckbox.disabled = displayedEntriesForUI.length === 0;
 
-            // Set the "Todo" checkbox state based on *currently displayed* entries
+            // Establecer el estado del checkbox "Todo" según las entradas *actualmente mostradas*
             if (displayedEntriesForUI.length === 0) {
                 toggleAllExportCheckbox.checked = false;
             } else {
@@ -410,19 +410,19 @@
 
             clearDataBtn.disabled = totalCount === 0;
 
-            // Update date sort button text and icon
+            // Actualizar el texto y el icono del botón de ordenación por fecha
             let sortIconSvg = '';
             let sortButtonText = 'Orden';
 
-            if (sortByDateDirection === 1) { // Ascending
+            if (sortByDateDirection === 1) { // Ascendente
                 sortIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7l4-4m0 0l4 4m-4-4v18" />
                               </svg>`;
-            } else if (sortByDateDirection === -1) { // Descending
+            } else if (sortByDateDirection === -1) { // Descendente
                 sortIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 17l-4 4m0 0l-4-4m4 4V3" />
                               </svg>`;
-            } else { // No sort
+            } else { // Sin ordenar
                 sortIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                             </svg>`;
@@ -440,20 +440,20 @@
             }
         }
         
-        // --- Data Functions ---
+        // --- Funciones de datos ---
         function loadEntriesFromStorage() {
             const entriesJson = localStorage.getItem(STORAGE_KEY);
             localEntries = entriesJson ? JSON.parse(entriesJson) : [];
-            // Ensure `canExport` property exists for old entries
+            // Asegurarse de que la propiedad `canExport` exista para entradas antiguas
             localEntries.forEach(entry => {
                 if (typeof entry.canExport === 'undefined') {
                     entry.canExport = true;
                 }
-                // Ensure `workTitleVisible` property exists for old entries, default to false
+                // Asegurarse de que la propiedad `workTitleVisible` exista para entradas antiguas, por defecto a false
                 if (typeof entry.workTitleVisible === 'undefined') {
                     entry.workTitleVisible = false;
                 }
-                // Ensure `coeditoriales` property exists for old entries, default to empty string
+                // Asegurarse de que la propiedad `coeditoriales` exista para entradas antiguas, por defecto a cadena vacía
                 if (typeof entry.coeditoriales === 'undefined') {
                     entry.coeditoriales = '';
                 }
@@ -465,15 +465,15 @@
         }
 
         /**
-         * Renders the entries into the DOM, applying current filters and sorting.
+         * Renderiza las entradas en el DOM, aplicando los filtros y la ordenación actuales.
          */
         function renderEntries() {
             const selectedCollection = collectionFilter.value;
-            const searchTerm = searchInput.value.toLowerCase(); // Get search term and convert to lowercase
+            const searchTerm = searchInput.value.toLowerCase(); // Obtener el término de búsqueda y convertirlo a minúsculas
 
             let filteredEntries = [...localEntries];
 
-            // Apply search filter first
+            // Aplicar el filtro de búsqueda primero
             if (searchTerm !== '') {
                 filteredEntries = filteredEntries.filter(entry => {
                     const authorMatch = (entry.author || '').toLowerCase().includes(searchTerm);
@@ -482,43 +482,43 @@
                 });
             }
 
-            // Apply collection filter
+            // Aplicar el filtro de colección
             if (selectedCollection !== '') {
                 filteredEntries = filteredEntries.filter(entry => entry.collection === selectedCollection);
             }
 
             let currentSortedEntries = [...filteredEntries];
 
-            if (sortByDateDirection !== 0) { // If date sorting is enabled
+            if (sortByDateDirection !== 0) { // Si la ordenación por fecha está habilitada
                 currentSortedEntries.sort((a, b) => {
-                    // Convert year, month, day to a comparable format (e.g.,YYYYMMDD)
-                    // Treat missing values as 0 for consistent sorting, but handle undefined years carefully
+                    // Convertir año, mes, día a un formato comparable (ej., YYYYMMDD)
+                    // Tratar los valores que faltan como 0 para una ordenación consistente, pero manejar los años indefinidos con cuidado
                     const getDateValue = (entry) => {
                         const year = entry.publicationYear || 0;
                         const month = entry.month || 0;
                         const day = entry.day || 0;
-                        return year * 10000 + month * 100 + day; // Whittaker numeric representation
+                        return year * 10000 + month * 100 + day; // Representación numérica de Whittaker
                     };
 
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    // Handle cases where a year might be 0 (meaning undefined), sorting them at the end
+                    // Manejar casos donde un año podría ser 0 (lo que significa indefinido), ordenándolos al final
                     if (a.publicationYear === null && b.publicationYear === null) return 0;
-                    if (a.publicationYear === null) return 1; // a comes after b
-                    if (b.publicationYear === null) return -1; // b comes after a
+                    if (a.publicationYear === null) return 1; // a va después de b
+                    if (b.publicationYear === null) return -1; // b va después de a
 
-                    // Apply ascending or descending based on sortByDateDirection
+                    // Aplicar ascendente o descendente según sortByDateDirection
                     return sortByDateDirection * (dateA - dateB);
                 });
             } else {
-                // Sorting by collection, then by date (Year, Month, Day) in DESCENDING order
+                // Ordenar por colección, luego por fecha (Año, Mes, Día) en orden DESCENDENTE
                 currentSortedEntries.sort((a, b) => {
-                    // Custom order for collections: "Coedición" then "Sin Colección" go last
+                    // Orden personalizado para colecciones: "Coedición" y luego "Sin Colección" van al final
                     const getCollectionSortValue = (collectionName) => {
-                        if (collectionName === "Sin Colección") return 2; // Send Sin Colección to the very end
-                        if (collectionName === "Coedición") return 1;    // Send Coedición after other collections, before Sin Colección
-                        return 0; // Other collections stay in their natural order
+                        if (collectionName === "Sin Colección") return 2; // Enviar Sin Colección al final
+                        if (collectionName === "Coedición") return 1;    // Enviar Coedición después de otras colecciones, antes de Sin Colección
+                        return 0; // Otras colecciones se mantienen en su orden natural
                     };
 
                     const collectionSortA = getCollectionSortValue(a.collection);
@@ -528,40 +528,40 @@
                         return collectionSortA - collectionSortB;
                     }
 
-                    // If collections are the same (or both not special), sort alphabetically by collection name
+                    // Si las colecciones son las mismas (o ambas no son especiales), ordenar alfabéticamente por nombre de colección
                     const collectionCompare = (a.collection || '').localeCompare(b.collection || '');
                     if (collectionCompare !== 0) return collectionCompare;
 
-                    // Then compare by date (year, month, day) when collections are the same
+                    // Luego comparar por fecha (año, mes, día) cuando las colecciones son las mismas
                     const getDateValue = (entry) => {
                         const year = entry.publicationYear || 0;
                         const month = entry.month || 0;
                         const day = entry.day || 0;
-                        return year * 10000 + month * 100 + day; // Whittaker numeric representation
+                        return year * 10000 + month * 100 + day; // Representación numérica de Whittaker
                     };
 
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    // Handle cases where a year might be 0 (meaning undefined), sorting them at the end
+                    // Manejar casos donde un año podría ser 0 (lo que significa indefinido), ordenándolos al final
                     if (a.publicationYear === null && b.publicationYear === null) return 0;
-                    if (a.publicationYear === null) return 1; // a comes after b
-                    if (b.publicationYear === null) return -1; // b comes after a
+                    if (a.publicationYear === null) return 1; // a va después de b
+                    if (b.publicationYear === null) return -1; // b va después de a
 
-                    return dateB - dateA; // Default to DESCENDING date sort within collection
+                    return dateB - dateA; // Por defecto a orden descendente por fecha dentro de la colección
                 });
             }
             
-            entriesList.innerHTML = ''; // Clear previous list
-            displayedEntriesForUI = currentSortedEntries; // Store current displayed entries globally
+            entriesList.innerHTML = ''; // Limpiar la lista anterior
+            displayedEntriesForUI = currentSortedEntries; // Almacenar las entradas mostradas actualmente globalmente
 
-            if (currentSortedEntries.length === 0 && localEntries.length === 0) { // Only show empty state if no entries at all
-                emptyState.classList.remove('hidden'); // Show empty state
-                entriesList.classList.add('hidden'); // Hide entries list
-            } else if (currentSortedEntries.length === 0 && localEntries.length > 0) { // No entries match filter
+            if (currentSortedEntries.length === 0 && localEntries.length === 0) { // Solo mostrar estado vacío si no hay entradas en absoluto
+                emptyState.classList.remove('hidden'); // Mostrar estado vacío
+                entriesList.classList.add('hidden'); // Ocultar lista de entradas
+            } else if (currentSortedEntries.length === 0 && localEntries.length > 0) { // No hay entradas que coincidan con el filtro
                 entriesList.innerHTML = `<div class="p-4 text-center text-gray-500">No hay entradas que coincidan con los filtros o la búsqueda seleccionada.</div>`;
-                emptyState.classList.add('hidden'); // Hide empty state
-                entriesList.classList.remove('hidden'); // Show entries list (with message)
+                emptyState.classList.add('hidden'); // Ocultar estado vacío
+                entriesList.classList.remove('hidden'); // Mostrar lista de entradas (con mensaje)
             }
             else {
                 emptyState.classList.add('hidden');
@@ -580,7 +580,7 @@
                         <p class="font-bold text-lg text-gray-800">${entry.author || 'Autor no especificado'}</p>
                         <p class="text-sm text-gray-500">${entry.collection}</p>
                         <p class="text-sm text-gray-500">${entry.publicationYear || ''}</p>
-                        <!-- Export checkbox for each entry -->
+                        <!-- Checkbox de exportación para cada entrada -->
                         <div class="mt-2 flex items-center justify-center sm:justify-start">
                             <input type="checkbox" id="export-${entry.id}" data-id="${entry.id}" class="form-checkbox h-4 w-4 text-blue-600 export-checkbox" ${entry.canExport ? 'checked' : ''}>
                             <label for="export-${entry.id}" class="ml-2 text-sm text-gray-700">Exportar</label>
@@ -603,10 +603,10 @@
         }
 
         /**
-         * Downloads content as a file.
-         * @param {string} content - The content to download.
-         * @param {string} fileName - The name of the file.
-         * @param {string} contentType - The MIME type of the file.
+         * Descarga el contenido como un archivo.
+         * @param {string} content - El contenido a descargar.
+         * @param {string} fileName - El nombre del archivo.
+         * @param {string} contentType - El tipo MIME del archivo.
          */
         function downloadFile(content, fileName, contentType) {
             const blob = new Blob([content], { type: contentType });
@@ -621,17 +621,17 @@
         }
 
         /**
-         * Generates the HTML string for exporting catalog entries.
-         * @param {Array<Object>} entries - The array of entries to export.
-         * @param {boolean} forceWorkTitleVisible - If true, forces 'workTitleVisible' to true for all entries in the export.
-         * @returns {string} The generated HTML string.
+         * Genera la cadena HTML para exportar entradas de catálogo.
+         * @param {Array<Object>} entries - El array de entradas a exportar.
+         * @param {boolean} forceWorkTitleVisible - Si es true, fuerza 'workTitleVisible' a true para todas las entradas en la exportación.
+         * @returns {string} La cadena HTML generada.
          */
         function generateHtmlForExport(entries, forceWorkTitleVisible = false) {
-            // Filter entries to include only those marked for export
+            // Filtrar entradas para incluir solo aquellas marcadas para exportar
             const exportableEntries = entries.filter(entry => entry.canExport);
 
-            // Create a deep copy of exportableEntries to avoid modifying the original localEntries
-            // when forceWorkTitleVisible is true.
+            // Crear una copia profunda de exportableEntries para evitar modificar las localEntries originales
+            // cuando forceWorkTitleVisible es true.
             let entriesToRender = JSON.parse(JSON.stringify(exportableEntries));
 
             if (forceWorkTitleVisible) {
@@ -640,8 +640,8 @@
                 });
             }
 
-            // Important: Exported HTML should respect the *current* sorting, if date sort is active.
-            // If date sort is not active, it should use the default collection/date sort (descending date).
+            // Importante: el HTML exportado debe respetar la ordenación *actual*, si la ordenación por fecha está activa.
+            // Si la ordenación por fecha no está activa, debe usar la ordenación predeterminada por colección/fecha (fecha descendente).
             if (sortByDateDirection !== 0) {
                 entriesToRender.sort((a, b) => {
                     const getDateValue = (entry) => {
@@ -662,11 +662,11 @@
                 });
             } else {
                 entriesToRender.sort((a, b) => {
-                    // Custom order for collections: "Coedición" then "Sin Colección" go last
+                    // Orden personalizado para colecciones: "Coedición" y luego "Sin Colección" van al final
                     const getCollectionSortValue = (collectionName) => {
-                        if (collectionName === "Sin Colección") return 2; // Send Sin Colección to the very end
-                        if (collectionName === "Coedición") return 1;    // Send Coedición after other collections, before Sin Colección
-                        return 0; // Other collections stay in their natural order
+                        if (collectionName === "Sin Colección") return 2; // Enviar Sin Colección al final
+                        if (collectionName === "Coedición") return 1;    // Enviar Coedición después de otras colecciones, antes de Sin Colección
+                        return 0; // Otras colecciones se mantienen en su orden natural
                     };
 
                     const collectionSortA = getCollectionSortValue(a.collection);
@@ -676,7 +676,7 @@
                         return collectionSortA - collectionSortB;
                     }
 
-                    // If collections are the same (or both not special), sort alphabetically by collection name
+                    // Si las colecciones son las mismas (o ambas no son especiales), ordenar alfabéticamente por nombre de colección
                     const collectionCompare = (a.collection || '').localeCompare(b.collection || '');
                     if (collectionCompare !== 0) return collectionCompare;
                     
@@ -694,7 +694,7 @@
                     if (a.publicationYear === null) return 1;
                     if (b.publicationYear === null) return -1;
                     
-                    return dateB - dateA; // Default to DESCENDING date sort within collection
+                    return dateB - dateA; // Por defecto a orden descendente por fecha dentro de la colección
                 });
             }
             
@@ -709,13 +709,13 @@
                     case "Coedición":
                         return "#708090"; // Color gris para Coedición
                     case "Sin Colección": // Color para "Sin Colección"
-                        return "#A9A9A9"; // DarkGrey, puedes ajustar si prefieres otro tono
+                        return "#A9A9A9"; // Gris oscuro, puedes ajustar si prefieres otro tono
                     default:
-                        return "#D83A39"; // Default color
+                        return "#D83A39"; // Color predeterminado
                 }
             };
 
-            // Conditional style for book-title (author) based on forceWorkTitleVisible
+            // Estilo condicional para el título del libro (autor) basado en forceWorkTitleVisible
             const bookAuthorFontSize = forceWorkTitleVisible ? '1.08rem' : '1.8rem'; // 1.8rem * 0.6 = 1.08rem
             
             const entryBlocks = entriesToRender.map(entry => {
@@ -724,11 +724,11 @@
                 const collectionColor = getCollectionColor(entry.collection);
                 
                 let seriesContent = '';
-                // Handle "Serie Historias de Vida"
+                // Manejar "Serie Historias de Vida"
                 if (entry.collection === "Sociedad en Movimiento" && entry.series === "Serie Historias de Vida") {
                     seriesContent = `<span style="color: #95cd00; margin-left: 8px;">- ${entry.series}</span>`;
                 }
-                // Handle "Serie Apuntes y Trabajos Prácticos" with color #006bcd
+                // Manejar "Serie Apuntes y Trabajos Prácticos" con color #006bcd
                 else if (entry.collection === "Aulas Universitarias" && entry.series === "Serie Apuntes y Trabajos Prácticos") {
                     seriesContent = `<span style="color: #006bcd; margin-left: 8px;">- ${entry.series}</span>`;
                 }
@@ -736,16 +736,16 @@
                 let collectionDisplayName = display(entry.collection);
                 let coeditorialesContent = ''; 
 
-                if (entry.coeditoriales) { // Display coeditoriales if it exists, regardless of collection
+                if (entry.coeditoriales) { // Mostrar coeditoriales si existe, independientemente de la colección
                     coeditorialesContent = `<span style="color: ${collectionColor}; margin-left: 8px;">- ${entry.coeditoriales}</span>`;
                 }
 
                 if (entry.collection && entry.collection !== "Sin Colección" && entry.collection !== "Coedición") {
                     collectionDisplayName = 'Colección ' + collectionDisplayName;
                 } else if (entry.collection === "Coedición") {
-                    collectionDisplayName = entry.collection; // No "Colección " prefix for Coedición
+                    collectionDisplayName = entry.collection; // Sin prefijo "Colección " para Coedición
                 } else {
-                    collectionDisplayName = ''; // No collection name for "Sin Colección" or empty
+                    collectionDisplayName = ''; // Sin nombre de colección para "Sin Colección" o vacío
                 }
 
 
@@ -760,7 +760,7 @@
                     : '<div style="margin-bottom: 1.5rem;"></div>';
                 
                 let workTitleHtml = '';
-                if (entry.workTitle && entry.workTitleVisible) { // Check workTitleVisible
+                if (entry.workTitle && entry.workTitleVisible) { // Comprobar workTitleVisible
                     workTitleHtml = `<h3 class="work-title">${display(entry.workTitle)}</h3>`;
                 }
 
@@ -868,6 +868,9 @@
                         .book-cover img, .cover-placeholder { max-width: 200px; }
                         .book-title { font-size: 1.5rem; }
                     }
+                    @media (max-width: 600px) { /* Nuevo: Regla para pantallas de 600px o menos */
+                        .book-cover img { max-width: 400px; width: 100%; } /* Asegura el ancho de 400px o 100% si es más pequeño */
+                    }
                     @media (max-width: 495px) {
                         .book-cover {
                             margin-left: auto;
@@ -895,45 +898,45 @@
             `;
         }
 
-        // --- Event Handlers ---
+        // --- Manejadores de Eventos ---
         function setupEventListeners() {
-            // Open "Add Entry" modal
+            // Abrir modal "Añadir Entrada"
             addEntryBtn.addEventListener('click', () => {
                 addEntryForm.reset();
-                // Hide all series wrappers initially
+                // Ocultar todos los wrappers de serie inicialmente
                 seriesHistoriasDeVidaWrapper.classList.add('hidden');
                 seriesApuntesYTrabajosPracticosWrapper.classList.add('hidden');
-                // The coeditorialesWrapper is now always visible by default in HTML, no need to touch it here.
+                // El coeditorialesWrapper ahora siempre está visible por defecto en HTML, no es necesario tocarlo aquí.
                 document.getElementById('entryEditId').value = '';
                 modalTitle.textContent = 'Añadir Nueva Entrada';
                 saveModalBtn.textContent = 'Guardar Entrada';
                 showModal(addEntryModal);
             });
 
-            // Cancel "Add/Edit" modal
+            // Cancelar modal "Añadir/Editar"
             cancelModalBtn.addEventListener('click', () => hideModal(addEntryModal));
 
-            // Show/hide series checkboxes/inputs based on collection
+            // Mostrar/ocultar checkboxes/campos de serie según la colección
             const collectionSelect = document.getElementById('entryCollection');
             
             collectionSelect.addEventListener('change', () => {
-                // Reset all series checkboxes/inputs and hide their wrappers
+                // Restablecer todos los checkboxes/campos de serie y ocultar sus wrappers
                 seriesHistoriasDeVidaWrapper.classList.add('hidden');
                 seriesHistoriasDeVidaCheckbox.checked = false;
                 seriesApuntesYTrabajosPracticosWrapper.classList.add('hidden');
                 seriesApuntesYTrabajosPracticosCheckbox.checked = false;
-                // Coeditoriales input is always visible, no need to touch its wrapper or value here
-                // entryCoeditoriales.value = ''; // No longer clear coeditoriales value based on collection
+                // El campo de coeditoriales siempre está visible, no es necesario tocar su wrapper o valor aquí
+                // entryCoeditoriales.value = ''; // Ya no se borra el valor de coeditoriales según la colección
 
                 if (collectionSelect.value === 'Sociedad en Movimiento') {
                     seriesHistoriasDeVidaWrapper.classList.remove('hidden');
                 } else if (collectionSelect.value === 'Aulas Universitarias') {
                     seriesApuntesYTrabajosPracticosWrapper.classList.remove('hidden');
                 }
-                // No special handling for 'Coedición' collection needed for coeditorialesWrapper now
+                // No se necesita un manejo especial para la colección 'Coedición' para coeditorialesWrapper ahora
             });
             
-            // Handle Add/Edit form submission
+            // Manejar el envío del formulario Añadir/Editar
             addEntryForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 saveModalBtn.disabled = true;
@@ -956,10 +959,10 @@
                     id: editId || crypto.randomUUID(),
                     price: getNumbValue('entryPrice'),
                     collection: document.getElementById('entryCollection').value,
-                    series: selectedSeries, // Use the determined series
-                    coeditoriales: entryCoeditoriales.value.trim(), // Coeditoriales field is always read
+                    series: selectedSeries, // Usar la serie determinada
+                    coeditoriales: entryCoeditoriales.value.trim(), // El campo coeditoriales siempre se lee
                     month: getNumbValue('entryMonth'), 
-                    day: getNumbValue('entryDay'),       
+                    day: getNumbValue('entryDay'),        
                     author: document.getElementById('entryAuthor').value.trim(),
                     sourceType: document.getElementById('entrySourceType').value,
                     workTitle: document.getElementById('entryWorkTitle').value.trim(),
@@ -974,19 +977,19 @@
                     isbn: document.getElementById('entryIsbn').value.trim(),
                     isbnDigital: document.getElementById('entryIsbnDigital').value.trim(),
                     description: document.getElementById('entryDescription').value.trim(),
-                    canExport: true, // New entries are exportable by default
+                    canExport: true, // Las nuevas entradas son exportables por defecto
                 };
                 
                 if (editId) {
-                    // Update existing entry
+                    // Actualizar entrada existente
                     const index = localEntries.findIndex(entry => entry.id === editId);
                     if (index !== -1) {
-                        // Preserve the existing canExport status
+                        // Preservar el estado `canExport` existente
                         localEntries[index] = { ...entryData, canExport: localEntries[index].canExport };
                     }
                     showNotification('Entrada actualizada con éxito.');
                 } else {
-                    // Add new entry
+                    // Añadir nueva entrada
                     localEntries.push(entryData);
                     showNotification('Entrada añadida con éxito.');
                 }
@@ -997,36 +1000,36 @@
                 saveModalBtn.disabled = false;
             });
 
-            // Export to HTML
+            // Exportar a HTML
             exportHtmlBtn.addEventListener('click', () => {
-                // Filter entries to include only those marked for export
+                // Filtrar entradas para incluir solo aquellas marcadas para exportar
                 const exportableEntries = localEntries.filter(entry => entry.canExport);
                 if (exportableEntries.length === 0) {
                     showNotification('No hay entradas seleccionadas para exportar.', true);
                     return;
                 }
-                // Call generateHtmlForExport without forcing workTitleVisible
+                // Llamar a generateHtmlForExport sin forzar workTitleVisible
                 const htmlContent = generateHtmlForExport(exportableEntries, false);
                 downloadFile(htmlContent, 'catalogo.html', 'text/html');
                 showNotification('Catálogo HTML exportado con éxito.');
             });
 
-            // New: Export to HTML with forced work title visibility
+            // Nuevo: Exportar a HTML con visibilidad forzada del título de la obra
             exportHtmlWithTitleBtn.addEventListener('click', () => {
                 const exportableEntries = localEntries.filter(entry => entry.canExport);
                 if (exportableEntries.length === 0) {
                     showNotification('No hay entradas seleccionadas para exportar.', true);
                     return;
                 }
-                // Call generateHtmlForExport with forceWorkTitleVisible = true
+                // Llamar a generateHtmlForExport con forceWorkTitleVisible = true
                 const htmlContent = generateHtmlForExport(exportableEntries, true);
                 downloadFile(htmlContent, 'catalogo_con_titulos.html', 'text/html');
                 showNotification('Catálogo HTML exportado con "Título de Obra" visible.');
             });
 
-            // Export to JSON
+            // Exportar a JSON
             exportJsonBtn.addEventListener('click', () => {
-                // Filter entries to include only those marked for export
+                // Filtrar entradas para incluir solo aquellas marcadas para exportar
                 const exportableEntries = localEntries.filter(entry => entry.canExport);
                 if (exportableEntries.length === 0) {
                     showNotification('No hay entradas seleccionadas para exportar.', true);
@@ -1037,7 +1040,7 @@
                 showNotification('Catálogo JSON exportado con éxito.');
             });
             
-            // Import from JSON
+            // Importar desde JSON
             importJsonBtn.addEventListener('click', () => importFileEl.click());
             importFileEl.addEventListener('change', (event) => {
                 const file = event.target.files[0];
@@ -1076,15 +1079,15 @@
                     };
                 };
                 reader.readAsText(file);
-                importFileEl.value = ''; // Reset file input
+                importFileEl.value = ''; // Restablecer el input del archivo
             });
 
-            // Show confirmation for "Clear All"
+            // Mostrar confirmación para "Limpiar Todo"
             clearDataBtn.addEventListener('click', () => {
                 if (localEntries.length > 0) {
                     confirmModalTitle.textContent = '¿Limpiar todo?';
                     confirmModalText.textContent = 'Esta acción eliminará PERMANENTEMENTE todas las entradas. No se puede deshacer.';
-                    confirmBtn.className = 'btn btn-danger'; // Reset class
+                    confirmBtn.className = 'btn btn-danger'; // Restablecer clase
                     confirmBtn.textContent = 'Sí, limpiar todo';
                     showModal(confirmModal);
                     confirmAction = () => {
@@ -1096,7 +1099,7 @@
                 }
             });
 
-            // Handle clicks on Edit/Delete buttons and export checkboxes using event delegation
+            // Manejar clics en los botones Editar/Eliminar y los checkboxes de exportación usando delegación de eventos
             entriesList.addEventListener('click', e => {
                 const target = e.target.closest('button, input[type="checkbox"]');
                 if (!target) return;
@@ -1111,13 +1114,13 @@
                 }
             });
 
-            // Handle "Todo" checkbox change
+            // Manejar el cambio del checkbox "Todo"
             toggleAllExportCheckbox.addEventListener('change', (event) => {
                 const shouldCheckAll = event.target.checked;
                 let changesMade = false;
 
-                // Iterate over currently displayed entries (which are already filtered)
-                // And update their 'canExport' status in the main 'localEntries' array
+                // Iterar sobre las entradas actualmente mostradas (que ya están filtradas)
+                // Y actualizar su estado 'canExport' en el array principal 'localEntries'
                 displayedEntriesForUI.forEach(displayedEntry => {
                     const originalEntry = localEntries.find(entry => entry.id === displayedEntry.id);
                     if (originalEntry && originalEntry.canExport !== shouldCheckAll) {
@@ -1128,29 +1131,29 @@
 
                 if (changesMade) {
                     saveEntriesToStorage();
-                    renderEntries(); // Re-render to reflect the individual checkbox changes and update overall UI state
+                    renderEntries(); // Volver a renderizar para reflejar los cambios individuales del checkbox y actualizar el estado general de la interfaz de usuario
                     showNotification(shouldCheckAll ? 'Todas las entradas visibles seleccionadas para exportar.' : 'Todas las entradas visibles deseleccionadas para exportar.');
                 } else {
                     showNotification('No hubo cambios en la selección de exportación de las entradas visibles.');
                 }
             });
 
-            // Handle collection filter change - now also toggles export status for that collection
+            // Manejar el cambio del filtro de colección - ahora también alterna el estado de exportación para esa colección
             collectionFilter.addEventListener('change', () => {
-                // When collection filter changes, re-render entries to apply both collection and search filters
+                // Cuando el filtro de colección cambia, volver a renderizar las entradas para aplicar tanto los filtros de colección como de búsqueda
                 renderEntries(); 
             });
 
-            // New: Handle search input changes
+            // Nuevo: Manejar cambios en el campo de búsqueda
             searchInput.addEventListener('input', () => {
-                // When search input changes, re-render entries to apply both collection and search filters
+                // Cuando el campo de búsqueda cambia, volver a renderizar las entradas para aplicar tanto los filtros de colección como de búsqueda
                 renderEntries();
             });
 
-            // Handle toggle date sort button click
+            // Manejar el clic en el botón de alternar ordenación por fecha
             toggleDateSortBtn.addEventListener('click', () => {
-                sortByDateDirection = (sortByDateDirection + 2) % 3 - 1; // Cycles through 0, 1, -1
-                renderEntries(); // Re-render with new sorting preference
+                sortByDateDirection = (sortByDateDirection + 2) % 3 - 1; // Cicla entre 0, 1, -1
+                renderEntries(); // Volver a renderizar con la nueva preferencia de ordenación
                 if (sortByDateDirection === 1) {
                     showNotification('Ordenado por fecha exacta (Año, Mes, Día) de forma ascendente.');
                 } else if (sortByDateDirection === -1) {
@@ -1165,7 +1168,7 @@
                 if (entryIndex !== -1) {
                     localEntries[entryIndex].canExport = isChecked;
                     saveEntriesToStorage();
-                    updateUI(); // Update button states based on new export selection
+                    updateUI(); // Actualizar estados de los botones basados en la nueva selección de exportación
                 }
             }
 
@@ -1173,18 +1176,18 @@
                 const entryToEdit = localEntries.find(entry => entry.id === id);
                 if (!entryToEdit) return;
                 
-                // Populate form
+                // Rellenar formulario
                 document.getElementById('entryEditId').value = id;
                 document.getElementById('entryPrice').value = entryToEdit.price || '';
                 collectionSelect.value = entryToEdit.collection || '';
-                entryCoeditoriales.value = entryToEdit.coeditoriales || ''; // Populate coeditoriales
+                entryCoeditoriales.value = entryToEdit.coeditoriales || ''; // Rellenar coeditoriales
                 document.getElementById('entryMonth').value = entryToEdit.month || ''; 
-                document.getElementById('entryDay').value = entryToEdit.day || '';       
+                document.getElementById('entryDay').value = entryToEdit.day || '';        
                 document.getElementById('entryPublishYear').value = entryToEdit.publicationYear || '';
                 document.getElementById('entryAuthor').value = entryToEdit.author || '';
                 document.getElementById('entrySourceType').value = entryToEdit.sourceType || 'Autor';
                 document.getElementById('entryWorkTitle').value = entryToEdit.workTitle || '';
-                // Set the radio button for workTitleVisibility
+                // Establecer el botón de radio para workTitleVisibility
                 if(entryToEdit.workTitleVisible) {
                     document.querySelector('input[name="workTitleVisibility"][value="visible"]').checked = true;
                 } else {
@@ -1200,7 +1203,7 @@
                 document.getElementById('entryIsbnDigital').value = entryToEdit.isbnDigital || '';
                 document.getElementById('entryDescription').value = entryToEdit.description || '';
                 
-                // Reset and then show/hide and set series inputs/checkboxes
+                // Restablecer y luego mostrar/ocultar y establecer los campos/checkboxes de serie
                 seriesHistoriasDeVidaWrapper.classList.add('hidden');
                 seriesHistoriasDeVidaCheckbox.checked = false;
                 seriesApuntesYTrabajosPracticosWrapper.classList.add('hidden');
@@ -1213,9 +1216,9 @@
                     seriesApuntesYTrabajosPracticosWrapper.classList.remove('hidden');
                     seriesApuntesYTrabajosPracticosCheckbox.checked = (entryToEdit.series === "Serie Apuntes y Trabajos Prácticos");
                 }
-                // coeditorialesWrapper is always visible, no special handling here.
+                // coeditorialesWrapper siempre es visible, no hay manejo especial aquí.
                 
-                // Update modal UI
+                // Actualizar la interfaz de usuario del modal
                 modalTitle.textContent = 'Editar Entrada';
                 saveModalBtn.textContent = 'Guardar Cambios';
                 showModal(addEntryModal);
@@ -1235,7 +1238,7 @@
                 };
             }
 
-            // Confirmation modal logic
+            // Lógica del modal de confirmación
             cancelConfirmBtn.addEventListener('click', () => {
                 hideModal(confirmModal);
                 confirmAction = null;
@@ -1258,11 +1261,11 @@
             });
         }
         
-        // --- App Initialization ---
+        // --- Inicialización de la aplicación ---
         function startApp() {
             document.getElementById('year').textContent = new Date().getFullYear();
             loadEntriesFromStorage();
-            renderEntries(); // Initial render with all entries
+            renderEntries(); // Renderizado inicial con todas las entradas
             setupEventListeners();
             console.log("Aplicación de recolección de entradas iniciada con LocalStorage.");
         }
