@@ -91,6 +91,7 @@
                     <option value="Aulas Universitarias">Aulas Universitarias</option>
                     <option value="Coedición">Coedición</option>
                     <option value="Sin Colección">Sin Colección</option>
+                    <option value="Descargas">Descargas</option> <!-- Nuevo filtro para descargas -->
                 </select>
                 <!-- Campo de búsqueda -->
                 <input type="text" id="searchInput" class="form-input w-48 sm:w-64" placeholder="Buscar por Autor o Título">
@@ -585,7 +586,11 @@
 
             // Aplicar el filtro de colección
             if (selectedCollection !== '') {
-                filteredEntries = filteredEntries.filter(entry => entry.collection === selectedCollection);
+                if (selectedCollection === 'Descargas') {
+                    filteredEntries = filteredEntries.filter(entry => entry.pdfUrl || entry.epubUrl);
+                } else {
+                    filteredEntries = filteredEntries.filter(entry => entry.collection === selectedCollection);
+                }
             }
 
             let currentSortedEntries = [...filteredEntries];
@@ -1133,7 +1138,7 @@
                     series: selectedSeries, // Usar la serie determinada
                     coeditoriales: entryCoeditoriales.value.trim(), // El campo coeditoriales siempre se lee
                     month: getNumbValue('entryMonth'), 
-                    day: getNumbValue('entryDay'),       
+                    day: getNumbValue('entryDay'),      
                     author: document.getElementById('entryAuthor').value.trim(),
                     sourceType: document.getElementById('entrySourceType').value,
                     workTitle: document.getElementById('entryWorkTitle').value.trim(),
@@ -1361,7 +1366,7 @@
                 collectionSelect.value = entryToEdit.collection || '';
                 entryCoeditoriales.value = entryToEdit.coeditoriales || ''; // Rellenar coeditoriales
                 document.getElementById('entryMonth').value = entryToEdit.month || ''; 
-                document.getElementById('entryDay').value = entryToEdit.day || '';       
+                document.getElementById('entryDay').value = entryToEdit.day || '';      
                 document.getElementById('entryPublishYearPrinted').value = entryToEdit.publicationYearPrinted || '';
                 document.getElementById('entryPublishYearDigital').value = entryToEdit.publicationYearDigital || '';
                 document.getElementById('entryAuthor').value = entryToEdit.author || '';
