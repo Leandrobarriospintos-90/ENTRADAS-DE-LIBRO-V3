@@ -117,6 +117,10 @@
                         <input type="text" id="coverPageTitle" class="form-input" placeholder="Título para la portada">
                     </div>
                     <div>
+                        <label for="coverPageSubtitle" class="block text-sm font-medium text-gray-700 mb-1">Subtítulo de Portada (Opcional)</label>
+                        <input type="text" id="coverPageSubtitle" class="form-input" placeholder="Subtítulo para la portada">
+                    </div>
+                    <div>
                         <label for="coverPageLogoUrl" class="block text-sm font-medium text-gray-700 mb-1">URL del Logo (Opcional)</label>
                         <input type="url" id="coverPageLogoUrl" class="form-input" placeholder="https://ejemplo.com/logo.png">
                     </div>
@@ -135,6 +139,10 @@
                             <label class="flex items-center">
                                 <input type="checkbox" id="includeSociedad" class="form-checkbox h-4 w-4 text-blue-600">
                                 <span class="ml-2 text-sm">Colección Sociedad en Movimiento</span>
+                            </label>
+                             <label class="flex items-center">
+                                <input type="checkbox" id="includeCoediciones" class="form-checkbox h-4 w-4 text-blue-600">
+                                <span class="ml-2 text-sm">Coediciones</span>
                             </label>
                         </div>
                     </div>
@@ -399,11 +407,13 @@
         const enableCoverPageCheckbox = document.getElementById('enableCoverPage');
         const coverPageFieldsDiv = document.getElementById('coverPageFields');
         const coverPageTitleInput = document.getElementById('coverPageTitle');
+        const coverPageSubtitleInput = document.getElementById('coverPageSubtitle'); // Nuevo input para el subtítulo
         const coverPageLogoUrlInput = document.getElementById('coverPageLogoUrl');
         const saveCoverPageBtn = document.getElementById('saveCoverPageBtn');
         const includeCienciasCheckbox = document.getElementById('includeCiencias'); // Nuevo checkbox
         const includeAulasCheckbox = document.getElementById('includeAulas'); // Nuevo checkbox
         const includeSociedadCheckbox = document.getElementById('includeSociedad'); // Nuevo checkbox
+        const includeCoedicionesCheckbox = document.getElementById('includeCoediciones'); // Nuevo checkbox para Coediciones
         
         const confirmModal = document.getElementById('confirmModal');
         const confirmModalTitle = document.getElementById('confirmModalTitle');
@@ -417,10 +427,12 @@
         let coverPageSettings = {
             isActive: false,
             title: '',
+            subtitle: '', // Nueva propiedad para el subtítulo
             logoUrl: '',
             includeCiencias: false,
             includeAulas: false,
-            includeSociedad: false
+            includeSociedad: false,
+            includeCoediciones: false // Nueva propiedad para Coediciones
         };
         let confirmAction = null;
         const STORAGE_KEY = 'catalogEntries';
@@ -544,15 +556,17 @@
                 // Combinar con las propiedades predeterminadas para asegurar que las nuevas existan
                 coverPageSettings = { ...coverPageSettings, ...loadedSettings };
             } else {
-                coverPageSettings = { isActive: false, title: '', logoUrl: '', includeCiencias: false, includeAulas: false, includeSociedad: false };
+                coverPageSettings = { isActive: false, title: '', subtitle: '', logoUrl: '', includeCiencias: false, includeAulas: false, includeSociedad: false, includeCoediciones: false };
             }
             // Actualizar UI
             enableCoverPageCheckbox.checked = coverPageSettings.isActive;
             coverPageTitleInput.value = coverPageSettings.title;
+            coverPageSubtitleInput.value = coverPageSettings.subtitle; // Cargar el valor del subtítulo
             coverPageLogoUrlInput.value = coverPageSettings.logoUrl;
             includeCienciasCheckbox.checked = coverPageSettings.includeCiencias;
             includeAulasCheckbox.checked = coverPageSettings.includeAulas;
             includeSociedadCheckbox.checked = coverPageSettings.includeSociedad;
+            includeCoedicionesCheckbox.checked = coverPageSettings.includeCoediciones; // Cargar estado del nuevo checkbox
 
             if (coverPageSettings.isActive) {
                 coverPageFieldsDiv.classList.remove('hidden');
@@ -739,8 +753,11 @@
             if (!settings.isActive) return '';
 
             const logoHtml = settings.logoUrl ? `<img src="${settings.logoUrl}" alt="Logo de la Portada" class="cover-logo" onerror="this.onerror=null;this.src='https://placehold.co/150x150/e2e8f0/cbd5e0?text=Logo+Error';">` : '';
+            const subtitleHtml = settings.subtitle ? `<h2 class="cover-subtitle" style="font-size: 1.8em; margin-top: 0.5em; color: #555;">${settings.subtitle}</h2>` : '';
 
             let selectedCollections = [];
+            let coedicionesIncluded = false; // Flag to track if Coediciones is included
+
             if (settings.includeAulas) {
                 selectedCollections.push("Colección Aulas Universitarias");
             }
@@ -750,11 +767,20 @@
             if (settings.includeSociedad) {
                 selectedCollections.push("Colección Sociedad en Movimiento");
             }
+            if (settings.includeCoediciones) { // Añadir "Coediciones" si está marcada
+                coedicionesIncluded = true;
+            }
 
-            // Ordenar alfabéticamente las colecciones seleccionadas
-            selectedCollections.sort((a, b) => a.localeCompare(b));
+            // Ordenar alfabéticamente las colecciones seleccionadas, excluyendo Coediciones temporalmente
+            const collectionsToSort = selectedCollections.filter(name => name !== "Colección Coedición");
+            collectionsToSort.sort((a, b) => a.localeCompare(b));
 
-            let collectionsHtml = selectedCollections.map(colName => {
+            // Añadir "Coediciones" al final si estaba incluida
+            if (coedicionesIncluded) {
+                collectionsToSort.push("Colección Coedición");
+            }
+
+            let collectionsHtml = collectionsToSort.map(colName => {
                 const rawColName = colName.replace('Colección ', ''); // Quitar "Colección " para obtener el nombre original de la colección
                 return `<p style="color: ${getCollectionColor(rawColName)}; font-size: 1.5em; font-weight: 600; margin-top: 0.5em;">${colName}</p>`;
             }).join('');
@@ -763,6 +789,7 @@
                 <div class="cover-page" style="page-break-after: always; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; text-align: center; padding: 2rem;">
                     ${logoHtml}
                     <h1 class="cover-title" style="font-size: 3em; margin-top: 1em; color: #313332;">${settings.title || 'Título de la Portada'}</h1>
+                    ${subtitleHtml} <!-- Insertar el subtítulo aquí -->
                     <div style="width: 20%; height: 1px; background-color: #ccc; margin: 1em auto;"></div> <!-- Línea gris -->
                     ${collectionsHtml}
                 </div>
@@ -1037,12 +1064,20 @@
                         margin-top: 1em;
                         line-height: 1.2;
                     }
+                    .cover-subtitle { /* Estilo para el nuevo subtítulo */
+                        font-size: 1.8em;
+                        font-weight: 500;
+                        color: #555;
+                        margin-top: 0.5em;
+                        line-height: 1.2;
+                    }
                     
                     @media (max-width: 768px) {
                         .book-content { flex-direction: column; }
                         .book-cover img, .cover-placeholder { max-width: 200px; }
                         .book-title { font-size: 1.5rem; }
                         .cover-title { font-size: 2.2em; } /* Ajuste para móviles */
+                        .cover-subtitle { font-size: 1.5em; } /* Ajuste para móviles */
                     }
                     @media (max-width: 600px) { /* Nuevo: Regla para pantallas de 600px o menos */
                         .book-cover img { max-width: 400px; width: 100%; } /* Asegura el ancho de 400px o 100% si es más pequeño */
@@ -1274,7 +1309,7 @@
                         localEntries = [];
                         saveEntriesToStorage();
                         // También limpiar la configuración de la portada
-                        coverPageSettings = { isActive: false, title: '', logoUrl: '', includeCiencias: false, includeAulas: false, includeSociedad: false };
+                        coverPageSettings = { isActive: false, title: '', subtitle: '', logoUrl: '', includeCiencias: false, includeAulas: false, includeSociedad: false, includeCoediciones: false }; // Restablecer también el subtítulo y Coediciones
                         saveCoverPageSettings(); 
                         loadCoverPageSettings(); // Recargar la UI de la portada
                         renderEntries();
@@ -1457,10 +1492,12 @@
 
             saveCoverPageBtn.addEventListener('click', () => {
                 coverPageSettings.title = coverPageTitleInput.value.trim();
+                coverPageSettings.subtitle = coverPageSubtitleInput.value.trim(); // Guardar el valor del subtítulo
                 coverPageSettings.logoUrl = coverPageLogoUrlInput.value.trim();
                 coverPageSettings.includeCiencias = includeCienciasCheckbox.checked;
                 coverPageSettings.includeAulas = includeAulasCheckbox.checked;
                 coverPageSettings.includeSociedad = includeSociedadCheckbox.checked;
+                coverPageSettings.includeCoediciones = includeCoedicionesCheckbox.checked; // Guardar estado del nuevo checkbox
                 saveCoverPageSettings();
             });
 
@@ -1475,6 +1512,10 @@
             });
             includeSociedadCheckbox.addEventListener('change', () => {
                 coverPageSettings.includeSociedad = includeSociedadCheckbox.checked;
+                saveCoverPageSettings();
+            });
+            includeCoedicionesCheckbox.addEventListener('change', () => { // Listener para el nuevo checkbox
+                coverPageSettings.includeCoediciones = includeCoedicionesCheckbox.checked;
                 saveCoverPageSettings();
             });
         }
