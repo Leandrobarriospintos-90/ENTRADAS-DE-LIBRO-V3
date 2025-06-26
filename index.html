@@ -611,10 +611,15 @@
 
             if (sortByDateDirection !== 0) { // Si la ordenación por fecha está habilitada
                 currentSortedEntries.sort((a, b) => {
-                    // Convertir año, mes, día a un formato comparable (ej.,YYYYMMDD)
-                    // Usar publicationYearPrinted para la ordenación en la vista principal
+                    // Obtener el año más reciente entre impreso y digital para la ordenación
+                    const getMostRecentYear = (entry) => {
+                        const printedYear = entry.publicationYearPrinted || 0;
+                        const digitalYear = entry.publicationYearDigital || 0;
+                        return Math.max(printedYear, digitalYear);
+                    };
+
                     const getDateValue = (entry) => {
-                        const year = entry.publicationYearPrinted || 0; // Usar el año impreso para ordenar
+                        const year = getMostRecentYear(entry);
                         const month = entry.month || 0;
                         const day = entry.day || 0;
                         return year * 10000 + month * 100 + day; // Representación numérica de Whittaker
@@ -623,10 +628,12 @@
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    // Manejar casos donde un año podría ser 0 (lo que significa indefinido), ordenándolos al final
-                    if (a.publicationYearPrinted === null && b.publicationYearPrinted === null) return 0;
-                    if (a.publicationYearPrinted === null) return 1; // a va después de b
-                    if (b.publicationYearPrinted === null) return -1; // b va después de a
+                    // Manejar casos donde ambos años podrían ser 0 (lo que significa indefinido), ordenándolos al final
+                    const yearA = getMostRecentYear(a);
+                    const yearB = getMostRecentYear(b);
+                    if (yearA === 0 && yearB === 0) return 0;
+                    if (yearA === 0) return 1; // a va después de b
+                    if (yearB === 0) return -1; // b va después de a
 
                     // Aplicar ascendente o descendente según sortByDateDirection
                     return sortByDateDirection * (dateA - dateB);
@@ -651,10 +658,16 @@
                     // Si las colecciones son las mismas (o ambas no son especiales), ordenar alfabéticamente por nombre de colección
                     const collectionCompare = (a.collection || '').localeCompare(b.collection || '');
                     if (collectionCompare !== 0) return collectionCompare;
+                    
+                    // Obtener el año más reciente entre impreso y digital para la ordenación
+                    const getMostRecentYear = (entry) => {
+                        const printedYear = entry.publicationYearPrinted || 0;
+                        const digitalYear = entry.publicationYearDigital || 0;
+                        return Math.max(printedYear, digitalYear);
+                    };
 
-                    // Luego comparar por fecha (año, mes, día) cuando las colecciones son las mismas
                     const getDateValue = (entry) => {
-                        const year = entry.publicationYearPrinted || 0; // Usar el año impreso para ordenar
+                        const year = getMostRecentYear(entry);
                         const month = entry.month || 0;
                         const day = entry.day || 0;
                         return year * 10000 + month * 100 + day;
@@ -663,9 +676,11 @@
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    if (a.publicationYearPrinted === null && b.publicationYearPrinted === null) return 0;
-                    if (a.publicationYearPrinted === null) return 1;
-                    if (b.publicationYearPrinted === null) return -1;
+                    const yearA = getMostRecentYear(a);
+                    const yearB = getMostRecentYear(b);
+                    if (yearA === 0 && yearB === 0) return 0;
+                    if (yearA === 0) return 1;
+                    if (yearB === 0) return -1;
                     
                     return dateB - dateA; // Por defecto a orden descendente por fecha dentro de la colección
                 });
@@ -838,9 +853,15 @@
             // Si la ordenación por fecha no está activa, debe usar la ordenación predeterminada por colección/fecha (fecha descendente).
             if (sortByDateDirection !== 0) {
                 entriesToRender.sort((a, b) => {
-                    // Usar publicationYearPrinted para la ordenación en la exportación HTML
+                    // Obtener el año más reciente entre impreso y digital para la ordenación
+                    const getMostRecentYear = (entry) => {
+                        const printedYear = entry.publicationYearPrinted || 0;
+                        const digitalYear = entry.publicationYearDigital || 0;
+                        return Math.max(printedYear, digitalYear);
+                    };
+
                     const getDateValue = (entry) => {
-                        const year = entry.publicationYearPrinted || 0;
+                        const year = getMostRecentYear(entry);
                         const month = entry.month || 0;
                         const day = entry.day || 0;
                         return year * 10000 + month * 100 + day;
@@ -849,9 +870,12 @@
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    if (a.publicationYearPrinted === null && b.publicationYearPrinted === null) return 0;
-                    if (a.publicationYearPrinted === null) return 1;
-                    if (b.publicationYearPrinted === null) return -1;
+                    // Manejar casos donde ambos años podrían ser 0 (lo que significa indefinido), ordenándolos al final
+                    const yearA = getMostRecentYear(a);
+                    const yearB = getMostRecentYear(b);
+                    if (yearA === 0 && yearB === 0) return 0;
+                    if (yearA === 0) return 1;
+                    if (yearB === 0) return -1;
                     
                     return sortByDateDirection * (dateA - dateB);
                 });
@@ -875,8 +899,15 @@
                     const collectionCompare = (a.collection || '').localeCompare(b.collection || '');
                     if (collectionCompare !== 0) return collectionCompare;
                     
+                    // Obtener el año más reciente entre impreso y digital para la ordenación
+                    const getMostRecentYear = (entry) => {
+                        const printedYear = entry.publicationYearPrinted || 0;
+                        const digitalYear = entry.publicationYearDigital || 0;
+                        return Math.max(printedYear, digitalYear);
+                    };
+
                     const getDateValue = (entry) => {
-                        const year = entry.publicationYearPrinted || 0;
+                        const year = getMostRecentYear(entry);
                         const month = entry.month || 0;
                         const day = entry.day || 0;
                         return year * 10000 + month * 100 + day;
@@ -885,9 +916,11 @@
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    if (a.publicationYearPrinted === null && b.publicationYearPrinted === null) return 0;
-                    if (a.publicationYearPrinted === null) return 1;
-                    if (b.publicationYearPrinted === null) return -1;
+                    const yearA = getMostRecentYear(a);
+                    const yearB = getMostRecentYear(b);
+                    if (yearA === 0 && yearB === 0) return 0;
+                    if (yearA === 0) return 1;
+                    if (yearB === 0) return -1;
                     
                     return dateB - dateA; // Por defecto a orden descendente por fecha dentro de la colección
                 });
