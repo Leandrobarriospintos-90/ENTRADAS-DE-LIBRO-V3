@@ -611,26 +611,41 @@
 
             if (sortByDateDirection !== 0) { // Si la ordenación por fecha está habilitada
                 currentSortedEntries.sort((a, b) => {
-                    // Obtener el año más reciente entre impreso y digital para la ordenación
-                    const getMostRecentYear = (entry) => {
-                        const printedYear = entry.publicationYearPrinted || 0;
-                        const digitalYear = entry.publicationYearDigital || 0;
-                        return Math.max(printedYear, digitalYear);
+                    // Función para obtener el año de publicación relevante para la ordenación
+                    const getYearForSorting = (entry) => {
+                        const printedYear = entry.publicationYearPrinted;
+                        const digitalYear = entry.publicationYearDigital;
+
+                        if (printedYear !== null && digitalYear !== null) {
+                            // Si el año digital es posterior al impreso, priorizar el impreso.
+                            if (digitalYear > printedYear) {
+                                return printedYear;
+                            } else {
+                                // En cualquier otro caso (impreso es igual o posterior al digital), usar el más reciente.
+                                return Math.max(printedYear, digitalYear);
+                            }
+                        } else if (printedYear !== null) {
+                            return printedYear; // Solo existe el año impreso
+                        } else if (digitalYear !== null) {
+                            return digitalYear; // Solo existe el año digital
+                        } else {
+                            return 0; // No existe ningún año, se considera 0 para la ordenación
+                        }
                     };
 
                     const getDateValue = (entry) => {
-                        const year = getMostRecentYear(entry);
+                        const year = getYearForSorting(entry);
                         const month = entry.month || 0;
                         const day = entry.day || 0;
-                        return year * 10000 + month * 100 + day; // Representación numérica de Whittaker
+                        return year * 10000 + month * 100 + day; // Representación numérica para la comparación
                     };
 
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    // Manejar casos donde ambos años podrían ser 0 (lo que significa indefinido), ordenándolos al final
-                    const yearA = getMostRecentYear(a);
-                    const yearB = getMostRecentYear(b);
+                    // Manejar casos donde el año de ordenación podría ser 0 (indefinido), ordenándolos al final
+                    const yearA = getYearForSorting(a);
+                    const yearB = getYearForSorting(b);
                     if (yearA === 0 && yearB === 0) return 0;
                     if (yearA === 0) return 1; // a va después de b
                     if (yearB === 0) return -1; // b va después de a
@@ -659,15 +674,28 @@
                     const collectionCompare = (a.collection || '').localeCompare(b.collection || '');
                     if (collectionCompare !== 0) return collectionCompare;
                     
-                    // Obtener el año más reciente entre impreso y digital para la ordenación
-                    const getMostRecentYear = (entry) => {
-                        const printedYear = entry.publicationYearPrinted || 0;
-                        const digitalYear = entry.publicationYearDigital || 0;
-                        return Math.max(printedYear, digitalYear);
+                    // Función para obtener el año de publicación relevante para la ordenación
+                    const getYearForSorting = (entry) => {
+                        const printedYear = entry.publicationYearPrinted;
+                        const digitalYear = entry.publicationYearDigital;
+
+                        if (printedYear !== null && digitalYear !== null) {
+                            if (digitalYear > printedYear) {
+                                return printedYear; // Priorizar impreso si digital es posterior
+                            } else {
+                                return Math.max(printedYear, digitalYear); // Sino, el más reciente
+                            }
+                        } else if (printedYear !== null) {
+                            return printedYear;
+                        } else if (digitalYear !== null) {
+                            return digitalYear;
+                        } else {
+                            return 0;
+                        }
                     };
 
                     const getDateValue = (entry) => {
-                        const year = getMostRecentYear(entry);
+                        const year = getYearForSorting(entry);
                         const month = entry.month || 0;
                         const day = entry.day || 0;
                         return year * 10000 + month * 100 + day;
@@ -676,8 +704,8 @@
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    const yearA = getMostRecentYear(a);
-                    const yearB = getMostRecentYear(b);
+                    const yearA = getYearForSorting(a);
+                    const yearB = getYearForSorting(b);
                     if (yearA === 0 && yearB === 0) return 0;
                     if (yearA === 0) return 1;
                     if (yearB === 0) return -1;
@@ -853,15 +881,30 @@
             // Si la ordenación por fecha no está activa, debe usar la ordenación predeterminada por colección/fecha (fecha descendente).
             if (sortByDateDirection !== 0) {
                 entriesToRender.sort((a, b) => {
-                    // Obtener el año más reciente entre impreso y digital para la ordenación
-                    const getMostRecentYear = (entry) => {
-                        const printedYear = entry.publicationYearPrinted || 0;
-                        const digitalYear = entry.publicationYearDigital || 0;
-                        return Math.max(printedYear, digitalYear);
+                    // Función para obtener el año de publicación relevante para la ordenación
+                    const getYearForSorting = (entry) => {
+                        const printedYear = entry.publicationYearPrinted;
+                        const digitalYear = entry.publicationYearDigital;
+
+                        if (printedYear !== null && digitalYear !== null) {
+                            // Si el año digital es posterior al impreso, priorizar el impreso.
+                            if (digitalYear > printedYear) {
+                                return printedYear;
+                            } else {
+                                // En cualquier otro caso (impreso es igual o posterior al digital), usar el más reciente.
+                                return Math.max(printedYear, digitalYear);
+                            }
+                        } else if (printedYear !== null) {
+                            return printedYear; // Solo existe el año impreso
+                        } else if (digitalYear !== null) {
+                            return digitalYear; // Solo existe el año digital
+                        } else {
+                            return 0; // No existe ningún año, se considera 0 para la ordenación
+                        }
                     };
 
                     const getDateValue = (entry) => {
-                        const year = getMostRecentYear(entry);
+                        const year = getYearForSorting(entry);
                         const month = entry.month || 0;
                         const day = entry.day || 0;
                         return year * 10000 + month * 100 + day;
@@ -870,9 +913,9 @@
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    // Manejar casos donde ambos años podrían ser 0 (lo que significa indefinido), ordenándolos al final
-                    const yearA = getMostRecentYear(a);
-                    const yearB = getMostRecentYear(b);
+                    // Manejar casos donde el año de ordenación podría ser 0 (indefinido), ordenándolos al final
+                    const yearA = getYearForSorting(a);
+                    const yearB = getYearForSorting(b);
                     if (yearA === 0 && yearB === 0) return 0;
                     if (yearA === 0) return 1;
                     if (yearB === 0) return -1;
@@ -899,15 +942,28 @@
                     const collectionCompare = (a.collection || '').localeCompare(b.collection || '');
                     if (collectionCompare !== 0) return collectionCompare;
                     
-                    // Obtener el año más reciente entre impreso y digital para la ordenación
-                    const getMostRecentYear = (entry) => {
-                        const printedYear = entry.publicationYearPrinted || 0;
-                        const digitalYear = entry.publicationYearDigital || 0;
-                        return Math.max(printedYear, digitalYear);
+                    // Función para obtener el año de publicación relevante para la ordenación
+                    const getYearForSorting = (entry) => {
+                        const printedYear = entry.publicationYearPrinted;
+                        const digitalYear = entry.publicationYearDigital;
+
+                        if (printedYear !== null && digitalYear !== null) {
+                            if (digitalYear > printedYear) {
+                                return printedYear; // Priorizar impreso si digital es posterior
+                            } else {
+                                return Math.max(printedYear, digitalYear); // Sino, el más reciente
+                            }
+                        } else if (printedYear !== null) {
+                            return printedYear;
+                        } else if (digitalYear !== null) {
+                            return digitalYear;
+                        } else {
+                            return 0;
+                        }
                     };
 
                     const getDateValue = (entry) => {
-                        const year = getMostRecentYear(entry);
+                        const year = getYearForSorting(entry);
                         const month = entry.month || 0;
                         const day = entry.day || 0;
                         return year * 10000 + month * 100 + day;
@@ -916,8 +972,8 @@
                     const dateA = getDateValue(a);
                     const dateB = getDateValue(b);
 
-                    const yearA = getMostRecentYear(a);
-                    const yearB = getMostRecentYear(b);
+                    const yearA = getYearForSorting(a);
+                    const yearB = getYearForSorting(b);
                     if (yearA === 0 && yearB === 0) return 0;
                     if (yearA === 0) return 1;
                     if (yearB === 0) return -1;
